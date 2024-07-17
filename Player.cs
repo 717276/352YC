@@ -85,7 +85,7 @@ public class Player : MonoBehaviour
         {            
             inputVec.x = Input.GetAxisRaw("Horizontal");
             inputVec.y = Input.GetAxisRaw("Vertical");
-            // update
+            
             if (inputVec.magnitude > 0)
             {                
                 lastVec = inputVec;
@@ -95,7 +95,7 @@ public class Player : MonoBehaviour
         {            
             inputVec = lastVec;
         }
-        //update
+        
         if (Input.GetKey(KeyCode.Space))
         {
             if (curMapName != "Village")
@@ -111,8 +111,7 @@ public class Player : MonoBehaviour
             }
             
             if (curMapName == "Village" && !GameManager.instance.temp)
-            {
-                Debug.Log("Scan");
+            {                
                 Scan();
             }
         }        
@@ -133,7 +132,7 @@ public class Player : MonoBehaviour
             anim.SetFloat("y", lastVec.y);
             anim.SetBool("moving", true);
         }
-        //update
+        
         if (inputVec.magnitude <= 0 || onDialogue)
         {
             anim.SetBool("moving", false);
@@ -283,8 +282,7 @@ public class Player : MonoBehaviour
                 GameManager.instance.inventory[i] -= questItems[i];
             }
             if (questData.hasReward)
-            {   
-                // update
+            {                   
                 getReward = true;                
                 return null;
             } 
