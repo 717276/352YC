@@ -86,7 +86,7 @@ public class Enemy : MonoBehaviour
         //Bullet의 damage를  몬스터의 health에서 감소
         health -= collision.GetComponent<Bullet>().damage;
         StartCoroutine(PauseEnemy());        //코루틴 함수를 부를땐 이렇게 불러야 한다.
-
+        collision.gameObject.SetActive(false);
         //몬스터의 체력이 0이상이라면 몬스터 애니메이션의 Hit를 작동시킴
         if (health > 0)
         {

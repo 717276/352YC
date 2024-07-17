@@ -45,7 +45,7 @@ public class Player : MonoBehaviour
     private bool inQuest;
     private bool nextStep;
     public bool onDialogue;
-    private bool getReward;    
+    private bool getReward;
 
     private int[] questItems;
     //private int[] inventory;
@@ -54,7 +54,7 @@ public class Player : MonoBehaviour
 
     //맵이동
     public string curMapName;
-    public string dir;    
+    public string dir;
 
     private void Awake()
     {
@@ -77,25 +77,25 @@ public class Player : MonoBehaviour
         //inventory = new int[4];
         weapon = FindObjectOfType<Weapon>();
         localSpeed = speed;
-    }    
+    }
     private void Update()
     {
         // 대화 && 공격 && 스캔 업데이트
         if (!onDialogue && !getReward)
-        {            
+        {
             inputVec.x = Input.GetAxisRaw("Horizontal");
             inputVec.y = Input.GetAxisRaw("Vertical");
-            
+
             if (inputVec.magnitude > 0)
-            {                
+            {
                 lastVec = inputVec;
             }
         }
         else
-        {            
+        {
             inputVec = lastVec;
         }
-        
+
         if (Input.GetKey(KeyCode.Space))
         {
             if (curMapName != "Village")
@@ -109,18 +109,18 @@ public class Player : MonoBehaviour
                     weapon.Fire();
                 }
             }
-            
+
             if (curMapName == "Village" && !GameManager.instance.temp)
-            {                
+            {
                 Scan();
             }
-        }        
+        }
     }
     private void FixedUpdate()
     {
         if (!onDialogue)
         {
-            nextVec = inputVec.normalized * speed * Time.deltaTime;            
+            nextVec = inputVec.normalized * speed * Time.deltaTime;
             rigid.MovePosition(rigid.position + nextVec);
         }
     }
@@ -132,7 +132,7 @@ public class Player : MonoBehaviour
             anim.SetFloat("y", lastVec.y);
             anim.SetBool("moving", true);
         }
-        
+
         if (inputVec.magnitude <= 0 || onDialogue)
         {
             anim.SetBool("moving", false);
@@ -144,7 +144,8 @@ public class Player : MonoBehaviour
         if (lastVec.x > 0)
         {
             weapon.SetDirection(Vector2.right);
-        } else if (lastVec.x < 0)
+        }
+        else if (lastVec.x < 0)
         {
             weapon.SetDirection(Vector2.left);
         }
@@ -162,21 +163,21 @@ public class Player : MonoBehaviour
             nextStep = true;
             // 퀘스트 유무 확인
             if (questData != null && questList.Count != 0)
-            {                
+            {
                 if (npcData.haveQuest && questList[0] == questData.questId && proceedingQuest.Item1 != questData.questId)
-                {                    
+                {
                     EnrollQuest();
                 }
                 // 퀘스트 진행
-                if (npcData.id == nextNpc || getReward) 
-                {                    
+                if (npcData.id == nextNpc || getReward)
+                {
                     if (questData.haveItems)
-                    {                        
-                        dialogue = FindInventory();                                                
-                        dialogue = questData.rewardScripts[curQuestId].scripts;                  
+                    {
+                        dialogue = FindInventory();
+                        dialogue = questData.rewardScripts[curQuestId].scripts;
                     }
                     else
-                    {                        
+                    {
                         dialogue = questData.FindSubScript(curQuestId, scriptCnt++).scripts;
                     }
 
@@ -189,10 +190,10 @@ public class Player : MonoBehaviour
             }
             // 일반적인 대화
             if (!inQuest && dialogue == null)
-            {                
+            {
                 dialogue = npcData.normalScript;
-            }            
-                                    
+            }
+
             onDialogue = textManager.Action(scanObj, dialogue, getReward);
             if (getReward)
             {
@@ -266,7 +267,7 @@ public class Player : MonoBehaviour
     }
     private String[] FindInventory()
     {
-        bool clear = true;        
+        bool clear = true;
         for (int i = 0; i < questItems.Length; ++i)
         {
             if (GameManager.instance.inventory[i] < questItems[i])
@@ -282,13 +283,13 @@ public class Player : MonoBehaviour
                 GameManager.instance.inventory[i] -= questItems[i];
             }
             if (questData.hasReward)
-            {                   
-                getReward = true;                
+            {
+                getReward = true;
                 return null;
-            } 
+            }
             else
             {
-               return questData.FindSubScript(curQuestId, scriptCnt++).scripts;
+                return questData.FindSubScript(curQuestId, scriptCnt++).scripts;
             }
         }
         else
@@ -298,7 +299,7 @@ public class Player : MonoBehaviour
         }
     }
     private void NextStep()
-    {        
+    {
         if (questData.nextNpcId.Length > 0 && questData.nextNpcId.Length > curQuestId)
         {
             nextNpc = questData.nextNpcId[curQuestId];
@@ -306,11 +307,11 @@ public class Player : MonoBehaviour
         else
         {
             nextNpc = -1;
-        }        
+        }
     }
     private void CheckQuestEnd(NpcData npcData)
-    {        
-        if (questData.EndIdList != null)
+    {
+        if (questData != null && questData.EndIdList != null)
         {
             int temp = questData.FindEndId(curQuestId);
             if (temp != -1)
@@ -330,7 +331,7 @@ public class Player : MonoBehaviour
     private void ResetDialogue()
     {
         if (!onDialogue)
-        {            
+        {
             dialogue = null;
             inQuest = false;
         }
