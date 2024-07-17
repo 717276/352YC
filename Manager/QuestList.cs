@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class QuestList<TKey,TValue> : MonoBehaviour
+public class QuestList<TKey, TValue> : MonoBehaviour
 {
     private Dictionary<TKey, TValue> questDictionary;
     public QuestList()
@@ -30,5 +30,5 @@ public class QuestList<TKey,TValue> : MonoBehaviour
     public int Count()
     {
         return questDictionary.Count;
-    }    
+    }
 }
