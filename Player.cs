@@ -330,8 +330,7 @@ public class Player : MonoBehaviour
     private void ResetDialogue()
     {
         if (!onDialogue)
-        {
-            Debug.Log("reset");
+        {            
             dialogue = null;
             inQuest = false;
         }
