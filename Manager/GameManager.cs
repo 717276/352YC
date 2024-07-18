@@ -33,7 +33,8 @@ public class GameManager : MonoBehaviour
         {
             DontDestroyOnLoad(gameObject);
             instance = this;
-        } else
+        }
+        else
         {
             Destroy(gameObject);
         }
@@ -41,7 +42,7 @@ public class GameManager : MonoBehaviour
     }
     public void GameStart()
     {
-        health = maxHealth;        
+        health = maxHealth;
         isLive = true;
     }
     public void GameOver()
@@ -57,6 +58,6 @@ public class GameManager : MonoBehaviour
     public void GotoVillage()
     {
         //reset?
-        SceneManager.LoadScene("Town");
-    }    
+        SceneManager.LoadScene("Village");
+    }
 }

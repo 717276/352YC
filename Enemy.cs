@@ -133,10 +133,21 @@ public class Enemy : MonoBehaviour
         {
             targetPlayer = scanner.nearestTarget;
         }
+        if (scanner.nearestTarget.CompareTag("Player"))
+        {
+            Debug.Log(scanner.nearestTarget.CompareTag("Player"));
 
+        }else
+        {
+            Debug.Log(scanner.nearestTarget.CompareTag("Player"));
+        }
         // 타겟이 있으면 해당 방향으로 이동
         if (targetPlayer != null)
         {
+            Debug.Log("targetPlayer is not null");
+            Debug.Log("targetPlayer.position " + targetPlayer.position.x + " " + targetPlayer.position.y);
+            Debug.Log("targetPlayer.position " + transform.position.x + " " + transform.position.y);
+            Debug.Log(" " + speed);
             Vector3 direction = (targetPlayer.position - transform.position).normalized;
             transform.position += direction * speed * Time.deltaTime;
         }

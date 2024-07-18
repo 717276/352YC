@@ -46,6 +46,8 @@ public class Player : MonoBehaviour
     private bool nextStep;
     public bool onDialogue;
     private bool getReward;
+    //update
+    private bool clear;
 
     private int[] questItems;
     //private int[] inventory;
@@ -120,7 +122,11 @@ public class Player : MonoBehaviour
     {
         if (!onDialogue)
         {
-            nextVec = inputVec.normalized * speed * Time.deltaTime;
+            //update
+            int addSpeed = 0;
+            if (inputVec.x != 0) addSpeed = 1;            
+            nextVec = inputVec.normalized * (speed + addSpeed) * Time.deltaTime;
+            Debug.Log("nextVec " + nextVec.magnitude);
             rigid.MovePosition(rigid.position + nextVec);
         }
     }
@@ -173,8 +179,7 @@ public class Player : MonoBehaviour
                 {
                     if (questData.haveItems)
                     {
-                        dialogue = FindInventory();
-                        dialogue = questData.rewardScripts[curQuestId].scripts;
+                        FindInventory();
                     }
                     else
                     {
@@ -265,9 +270,9 @@ public class Player : MonoBehaviour
         questScroll = dialogue;
         nextNpc = questData.nextNpcId[curQuestId];
     }
-    private String[] FindInventory()
+    private void FindInventory()
     {
-        bool clear = true;
+        clear = true;
         for (int i = 0; i < questItems.Length; ++i)
         {
             if (GameManager.instance.inventory[i] < questItems[i])
@@ -276,26 +281,29 @@ public class Player : MonoBehaviour
                 break;
             }
         }
+
         if (clear)
-        {
+        {            
             for (int i = 0; i < questItems.Length; ++i)
             {
                 GameManager.instance.inventory[i] -= questItems[i];
             }
             if (questData.hasReward)
             {
-                getReward = true;
-                return null;
+                getReward = true;                
+                dialogue = questData.rewardScripts[curQuestId].scripts;
             }
             else
             {
-                return questData.FindSubScript(curQuestId, scriptCnt++).scripts;
+                dialogue = questData.FindSubScript(curQuestId, scriptCnt++).scripts;
             }
         }
         else
         {
+            //update
             nextStep = false;
-            return questData.tellOffScripts[curQuestId].scripts;
+            clear = false;
+            dialogue = questData.tellOffScripts[curQuestId].scripts;
         }
     }
     private void NextStep()
@@ -311,6 +319,7 @@ public class Player : MonoBehaviour
     }
     private void CheckQuestEnd(NpcData npcData)
     {
+        //update
         if (questData != null && questData.EndIdList != null)
         {
             int temp = questData.FindEndId(curQuestId);
@@ -320,7 +329,8 @@ public class Player : MonoBehaviour
             }
         }
         // 퀘스트 삭제 및 초기화
-        if (endNpc == npcData.id && inQuest && !onDialogue)
+        //update
+        if (endNpc == npcData.id && inQuest && !onDialogue && clear)
         {
             questList.RemoveAt(0);
             scriptCnt = 1;

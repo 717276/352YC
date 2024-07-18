@@ -12,10 +12,11 @@ public class OutPortal : MonoBehaviour
     {
         Player player = FindObjectOfType<Player>();
         cm = FindObjectOfType<CameraManager>();
+
         if (from == player.curMapName && fromDir == player.dir)
         {
             cm.SetBound(bound);
-            player.transform.position = this.transform.position;
+            player.transform.position = this.transform.position;           
         }
     }
 }

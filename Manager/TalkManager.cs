@@ -25,14 +25,14 @@ public class TalkManager : MonoBehaviour
         objSprite = new Dictionary<int, Sprite>();
     }
     public string GetTalk(int objId, int talkIndex, string[] script, bool reward)
-    {
-
+    {        
+        
         if (talkIndex >= script.Length)
-        {
+        {            
             return null;
         }
         else
-        {
+        {           
             return script[talkIndex];
         }
     }
