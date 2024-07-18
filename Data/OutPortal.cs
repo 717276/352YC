@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class OutPortal : MonoBehaviour
@@ -12,11 +10,16 @@ public class OutPortal : MonoBehaviour
     {
         Player player = FindObjectOfType<Player>();
         cm = FindObjectOfType<CameraManager>();
-
+        GameManager.instance.GameOver();
         if (from == player.curMapName && fromDir == player.dir)
         {
             cm.SetBound(bound);
-            player.transform.position = this.transform.position;           
+            player.transform.position = this.transform.position;
         }
+        if (from == "Village")
+        {
+            GameManager.instance.health = GameManager.instance.maxHealth;
+        }
+
     }
 }

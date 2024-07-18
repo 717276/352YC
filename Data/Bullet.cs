@@ -1,14 +1,10 @@
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class Bullet : MonoBehaviour
 {
     public float speed;
-    public float damage;    
+    public float damage;
     private Rigidbody2D rigid;
     private void Awake()
     {
@@ -16,13 +12,13 @@ public class Bullet : MonoBehaviour
     }
     private void OnEnable()
     {
-        StartCoroutine(DeactivateAfterTime(3f));        
+        StartCoroutine(DeactivateAfterTime(3f));
     }
     private IEnumerator DeactivateAfterTime(float time)
     {
         yield return new WaitForSeconds(time);
         gameObject.SetActive(false);
-    }    
+    }
     public void Init(float damage, float speed, Vector3 dir)
     {
         this.damage = damage;
@@ -38,7 +34,7 @@ public class Bullet : MonoBehaviour
     {
         if (collision.CompareTag("Wall"))
         {
-            gameObject.SetActive(false);  
+            gameObject.SetActive(false);
         }
     }
 }

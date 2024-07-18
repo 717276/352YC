@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,7 +6,7 @@ public class QuestData : MonoBehaviour
 {
     [Serializable]
     public class ScriptArray
-    {       
+    {
         public string[] scripts;
     }
     [Serializable]
@@ -16,16 +15,16 @@ public class QuestData : MonoBehaviour
         public int scriptCnt;
         public ScriptArray scriptArray;
     }
-        
+
     [Serializable]
     public class KeyAndScriptArrayList
-    {        
+    {
         public List<KeyAndScriptArray> list;
     }
     [Serializable]
     public class QuestIdAndEndId
     {
-        public int questId;        
+        public int questId;
         public int endNpcId;
     }
 
@@ -33,7 +32,7 @@ public class QuestData : MonoBehaviour
     public class QuestIdAndEndIdList
     {
         public List<QuestIdAndEndId> list;
-    }    
+    }
 
 
     public int questId;
@@ -49,19 +48,20 @@ public class QuestData : MonoBehaviour
     public List<ScriptArray> tellOffScripts;
     public List<ScriptArray> rewardScripts;
     public ScriptArray FindSubScript(int questId, int scriptCnt)
-    {     
-        if (subScripts != null && subScripts.list != null && 
+    {
+        if (subScripts != null && subScripts.list != null &&
             questId >= 0 && questId <= subScripts.list.Count)
         {
             KeyAndScriptArray kvp = subScripts.list[questId];
             if (kvp.scriptCnt == scriptCnt)
             {
                 return kvp.scriptArray;
-            } else
+            }
+            else
             {
                 Debug.Log("kvp.value != scriptCnt");
-            }           
-            
+            }
+
         }
         return null;
     }
@@ -70,7 +70,7 @@ public class QuestData : MonoBehaviour
         if (EndIdList != null && EndIdList.list != null && questId > 0)
         {
             List<QuestIdAndEndId> endValuePairs = EndIdList.list;
-            foreach(QuestIdAndEndId kvp in endValuePairs)
+            foreach (QuestIdAndEndId kvp in endValuePairs)
             {
                 if (kvp.questId == questId)
                 {

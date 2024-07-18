@@ -1,7 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
@@ -27,6 +24,7 @@ public class GameManager : MonoBehaviour
 
     // update
     public bool temp;
+
     private void Awake()
     {
         if (instance == null)
@@ -47,17 +45,29 @@ public class GameManager : MonoBehaviour
     }
     public void GameOver()
     {
-        StartCoroutine(GameOverRoutine());
-    }
-    IEnumerator GameOverRoutine()
-    {
-        isLive = false;
-        yield return new WaitForSeconds(0.5f);
-        GotoVillage();
-    }
-    public void GotoVillage()
-    {
-        //reset?
-        SceneManager.LoadScene("Village");
+        for (int index = 0; index < pool.transform.childCount; index++)
+        {
+            Transform child = pool.transform.GetChild(index);
+
+            // 해당 자식 게임 오브젝트의 Enemy 컴포넌트 가져오기
+            Enemy enemy = child.GetComponent<Enemy>();
+            Scanner scanner = child.GetComponent<Scanner>();
+
+            if (enemy != null)
+            {
+                enemy.target = null;
+                enemy.targetPlayer = null;
+            }
+
+            if (scanner != null)
+            {
+                scanner.nearestTarget = null;
+            }
+
+            // 자식 게임 오브젝트 비활성화
+            child.gameObject.SetActive(false);
+
+        }
     }
 }
+

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
 
 public class Player : MonoBehaviour
@@ -58,6 +58,7 @@ public class Player : MonoBehaviour
     public string curMapName;
     public string dir;
 
+    public GameObject deadPortal;
     private void Awake()
     {
         // 초기화
@@ -124,9 +125,8 @@ public class Player : MonoBehaviour
         {
             //update
             int addSpeed = 0;
-            if (inputVec.x != 0) addSpeed = 1;            
+            if (inputVec.x != 0) addSpeed = 1;
             nextVec = inputVec.normalized * (speed + addSpeed) * Time.deltaTime;
-            Debug.Log("nextVec " + nextVec.magnitude);
             rigid.MovePosition(rigid.position + nextVec);
         }
     }
@@ -163,6 +163,7 @@ public class Player : MonoBehaviour
         {
             lastVec = inputVec;
             scanObj = hitted.collider.gameObject;
+            Debug.Log("들어옴");
 
             NpcData npcData = scanObj.GetComponent<NpcData>();
             questData = scanObj.GetComponent<QuestData>();
@@ -238,7 +239,7 @@ public class Player : MonoBehaviour
         {
             speed = localSpeed - 1f;
         }
-        else
+        if (other.CompareTag("ReturnSpeed"))
         {
             speed = localSpeed;
         }
@@ -250,12 +251,9 @@ public class Player : MonoBehaviour
 
         if (GameManager.instance.health <= 0)
         {
-            for (int index = 2; index < transform.childCount; index++)
-            {
-                transform.GetChild(index).gameObject.SetActive(false);
-            }
-            anim.SetTrigger("Dead");
-            GameManager.instance.GameOver();
+            curMapName = "Village";
+            dir = "center";
+            SceneManager.LoadScene("Village");
         }
     }
     private void EnrollQuest()
@@ -273,24 +271,32 @@ public class Player : MonoBehaviour
     private void FindInventory()
     {
         clear = true;
-        for (int i = 0; i < questItems.Length; ++i)
+        if (!getReward)
         {
-            if (GameManager.instance.inventory[i] < questItems[i])
+            for (int i = 0; i < questItems.Length; ++i)
             {
-                clear = false;
-                break;
+                if (GameManager.instance.inventory[i] < questItems[i])
+                {
+                    clear = false;
+                    break;
+                }
             }
+
         }
 
         if (clear)
-        {            
-            for (int i = 0; i < questItems.Length; ++i)
+        {
+            if (!getReward)
             {
-                GameManager.instance.inventory[i] -= questItems[i];
+                for (int i = 0; i < questItems.Length; ++i)
+                {
+                    GameManager.instance.inventory[i] -= questItems[i];
+                }
+
             }
             if (questData.hasReward)
             {
-                getReward = true;                
+                getReward = true;
                 dialogue = questData.rewardScripts[curQuestId].scripts;
             }
             else

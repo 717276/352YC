@@ -1,13 +1,11 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 public class PoolManager : MonoBehaviour
-{    
+{
     public static PoolManager instance;
 
-    public GameObject[] prefabs;   
+    public GameObject[] prefabs;
     private List<GameObject>[] pools;
 
     void Awake()
@@ -28,7 +26,7 @@ public class PoolManager : MonoBehaviour
         {
             pools[index] = new List<GameObject>();
         }
-    }    
+    }
     public GameObject Get(int index)
     {
         GameObject select = null;
@@ -47,7 +45,7 @@ public class PoolManager : MonoBehaviour
         // 모두 사용중이라면 
         // 새롭게 생성해서 select 변수에 할당한다.
         if (!select)
-        {            
+        {
             select = Instantiate(prefabs[index], transform);
             pools[index].Add(select);
         }

@@ -1,14 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
 public class CameraManager : MonoBehaviour
 {
     static public CameraManager instance;
-    public GameObject player;    
-    private Vector3 playerPosition;    
-    public float speed; 
+    public GameObject player;
+    private Vector3 playerPosition;
+    public float speed;
 
     public BoxCollider2D bound;
     private Vector3 minBound;
@@ -21,13 +19,13 @@ public class CameraManager : MonoBehaviour
     {
         if (instance != null)
         {
-            Destroy(this.gameObject);            
-        } else
+            Destroy(this.gameObject);
+        }
+        else
         {
             DontDestroyOnLoad(this.gameObject);
             instance = this;
         }
-        
     }
     private void Start()
     {
@@ -35,10 +33,11 @@ public class CameraManager : MonoBehaviour
         minBound = bound.bounds.min;
         maxBound = bound.bounds.max;
         halfHeight = theCamera.orthographicSize;
-        halfWidth = halfHeight * Screen.width / Screen.height;        
-    }    
+        halfWidth = halfHeight * Screen.width / Screen.height;
+    }
     void Update()
     {
+
         playerPosition.Set(player.transform.position.x, player.transform.position.y, this.transform.position.z);
 
         this.transform.position = Vector3.Lerp(this.transform.position, playerPosition, speed * Time.deltaTime);
@@ -49,7 +48,7 @@ public class CameraManager : MonoBehaviour
     }
 
     public void SetBound(BoxCollider2D newBound)
-    {           
+    {
         bound = newBound;
         minBound = bound.bounds.min;
         maxBound = bound.bounds.max;

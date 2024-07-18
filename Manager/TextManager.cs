@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -55,9 +53,9 @@ public class TextManager : MonoBehaviour
     public bool Action(GameObject obj, string[] script, bool reward)
     {
         scanObj = obj;
-        NpcData objData = scanObj.GetComponent<NpcData>();       
+        NpcData objData = scanObj.GetComponent<NpcData>();
         onDialogue = Talk(objData.id, objData.isNpc, script, reward);
-        
+
         if (reward && talkIndex == script.Length)
         {
             GameManager.instance.temp = true;
@@ -70,8 +68,8 @@ public class TextManager : MonoBehaviour
     {
         string ment = "";
         onDialogue = true;
-        ment = talkBox.GetTalk(objId, talkIndex, script,reward);
-        
+        ment = talkBox.GetTalk(objId, talkIndex, script, reward);
+
         if (ment == null)
         {
             onDialogue = false;

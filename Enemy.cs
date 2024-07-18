@@ -1,6 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using static Spawner;
 
@@ -50,13 +48,15 @@ public class Enemy : MonoBehaviour
 
     void LateUpdate()
     {
+        if (target == null)
+            return;
         spriter.flipX = target.position.x < rigid.position.x;
 
     }
 
     void OnEnable()
     {
-        target = GameManager.instance.player.GetComponent<Rigidbody2D>();
+
         isLive = true;
         coll.enabled = true;
         rigid.simulated = true;
@@ -102,6 +102,7 @@ public class Enemy : MonoBehaviour
             //죽었을 경우 플레이어를 쫒아가는 걸 멈추고 애니메이션 실행
             anim.SetBool("Dead", true);
             rigid.velocity = Vector2.zero;
+            //새로추가
             //몬스터가 죽었을 때 리워드 생성
             int random = Random.Range(1, 100);
             if (random < 100)
@@ -132,22 +133,11 @@ public class Enemy : MonoBehaviour
         if (targetPlayer == null && scanner.nearestTarget != null && scanner.nearestTarget.CompareTag("Player"))
         {
             targetPlayer = scanner.nearestTarget;
-        }
-        if (scanner.nearestTarget.CompareTag("Player"))
-        {
-            Debug.Log(scanner.nearestTarget.CompareTag("Player"));
-
-        }else
-        {
-            Debug.Log(scanner.nearestTarget.CompareTag("Player"));
+            target = GameManager.instance.player.GetComponent<Rigidbody2D>();
         }
         // 타겟이 있으면 해당 방향으로 이동
         if (targetPlayer != null)
         {
-            Debug.Log("targetPlayer is not null");
-            Debug.Log("targetPlayer.position " + targetPlayer.position.x + " " + targetPlayer.position.y);
-            Debug.Log("targetPlayer.position " + transform.position.x + " " + transform.position.y);
-            Debug.Log(" " + speed);
             Vector3 direction = (targetPlayer.position - transform.position).normalized;
             transform.position += direction * speed * Time.deltaTime;
         }
