@@ -10,20 +10,16 @@ public class TalkManager : MonoBehaviour
     public Sprite[] objImages;
     private void Awake()
     {
-        if (instance == null)
-        {
-            DontDestroyOnLoad(gameObject);
-            instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-        npcSprite = new Dictionary<int, Sprite>();
-        objSprite = new Dictionary<int, Sprite>();
+        instance = this;
+    }
+    void Start()
+    {
+        instance = this;
     }
     public string GetTalk(int objId, int talkIndex, string[] script, bool reward)
     {
+
+
 
         if (talkIndex >= script.Length)
         {

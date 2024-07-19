@@ -20,16 +20,11 @@ public class TextManager : MonoBehaviour
     private int talkIndex;
     private void Awake()
     {
-
-        if (instance == null)
-        {
-            DontDestroyOnLoad(gameObject);
-            instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        instance = this;
+    }
+    void Start()
+    {
+        instance = this;
     }
     private void Update()
     {
@@ -66,8 +61,10 @@ public class TextManager : MonoBehaviour
     }
     bool Talk(int objId, bool isNpc, string[] script, bool reward)
     {
+
         string ment = "";
         onDialogue = true;
+
         ment = talkBox.GetTalk(objId, talkIndex, script, reward);
 
         if (ment == null)
@@ -76,6 +73,7 @@ public class TextManager : MonoBehaviour
             talkIndex = 0;
             return onDialogue;
         }
+
         text.text = ment;
         talkIndex++;
         return onDialogue;

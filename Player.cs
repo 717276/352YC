@@ -163,7 +163,6 @@ public class Player : MonoBehaviour
         {
             lastVec = inputVec;
             scanObj = hitted.collider.gameObject;
-            Debug.Log("들어옴");
 
             NpcData npcData = scanObj.GetComponent<NpcData>();
             questData = scanObj.GetComponent<QuestData>();
@@ -199,7 +198,6 @@ public class Player : MonoBehaviour
             {
                 dialogue = npcData.normalScript;
             }
-
             onDialogue = textManager.Action(scanObj, dialogue, getReward);
             if (getReward)
             {
